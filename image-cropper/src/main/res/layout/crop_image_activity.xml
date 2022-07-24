@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sanags.lib.android_image_cropper.CropImageView
+<ir.sanags.android.image_cropper.CropImageView
     android:id="@+id/cropImageView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

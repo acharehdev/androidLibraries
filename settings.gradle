@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Android Image Cropper Library"
-include ':app'
+rootProject.name = "Sanags Android Libraries"
+include ':sample-image-cropper'
 include ':image-cropper'
