@@ -17,7 +17,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'ir.sanags.android'
                 artifactId = 'image-cropper'
-                version = '1.0.0-Alpha'
+                version = '1.0.0-alpha'
             }
         }
     }
