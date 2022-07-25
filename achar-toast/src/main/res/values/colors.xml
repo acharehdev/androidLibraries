@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="success_text">#00bfa5</color>
+    <color name="success_back">#EEEBF1ED</color>
+
+    <color name="info_text">#FF3D4166</color>
+    <color name="info_back">#FFFFFFFF</color>
+
+    <color name="error_text">#e61236</color>
+    <color name="error_back">#f5dee2</color>
+</resources>
