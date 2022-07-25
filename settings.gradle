@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 rootProject.name = "Sanags Android Libraries"
 include ':sample-image-cropper'
 include ':image-cropper'
+include ':achar-toast'
+include ':sample-toast'
