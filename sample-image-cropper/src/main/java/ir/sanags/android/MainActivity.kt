@@ -96,7 +96,9 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(savedInstanceState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
         // handle result of CropImageActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
