@@ -2,6 +2,7 @@ package ir.sanags.android.achar_toast
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -20,7 +21,7 @@ fun Context?.toast(s: String?, type: ToastType, length: Int = Toast.LENGTH_LONG)
     val inflater = LayoutInflater.from(this)
     val layout = inflater.inflate(R.layout.custom_toast, null)
     val text = layout.findViewById<TextView>(R.id.text)
-    val imageView = layout.findViewById<ImageView>(R.id.imageView_icon)
+
 
     val backgroundColor: Int
     val textColor: Int
@@ -47,7 +48,9 @@ fun Context?.toast(s: String?, type: ToastType, length: Int = Toast.LENGTH_LONG)
 
     (layout as CardView).setCardBackgroundColor(backgroundColor)
     text.setTextColor(textColor)
-    imageView.setImageResource(imageResource)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        text.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, imageResource, 0)
+    }
     //imageView.setColorFilter(textColor, android.graphics.PorterDuff.Mode.SRC_IN)
 
     text.text = s.toString().trim()
