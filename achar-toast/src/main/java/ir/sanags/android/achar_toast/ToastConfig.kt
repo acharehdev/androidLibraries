@@ -2,7 +2,9 @@ package ir.sanags.android.achar_toast
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Build
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -12,6 +14,11 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
+
+object ToastConfig{
+    var textTypeface: Typeface? = null
+    var textSize: Float = 14f
+}
 
 fun Context?.toast(
     s: String?,
@@ -73,6 +80,9 @@ fun Context?.toast(
 
     textView.text = s.toString().trim()
 
+    textView.typeface = ToastConfig.textTypeface
+    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, ToastConfig.textSize)
+
     val toast = Toast(this)
     toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0)
     toast.duration = length
@@ -81,22 +91,47 @@ fun Context?.toast(
 
 }
 
-fun Context?.toast(@StringRes res: Int, type: ToastType, length: Int = Toast.LENGTH_LONG) {
-    this.toast(this?.getString(res), type, length)
+fun Context?.toast(
+    @StringRes res: Int,
+    type: ToastType,
+    length: Int = Toast.LENGTH_LONG,
+    iconRight: Boolean = true
+) {
+    this.toast(this?.getString(res), type, length, iconRight)
 }
 
-fun Dialog.toast(s: String?, type: ToastType, length: Int = Toast.LENGTH_LONG) {
-    context.toast(s, type, length)
+fun Dialog.toast(
+    s: String?,
+    type: ToastType,
+    length: Int = Toast.LENGTH_LONG,
+    iconRight: Boolean = true
+) {
+    context.toast(s, type, length, iconRight)
 }
 
-fun Dialog.toast(@StringRes res: Int, type: ToastType, length: Int = Toast.LENGTH_LONG) {
-    context.toast(res, type, length)
+fun Dialog.toast(
+    @StringRes res: Int,
+    type: ToastType,
+    length: Int = Toast.LENGTH_LONG,
+    iconRight: Boolean = true
+) {
+    context.toast(res, type, length, iconRight)
 }
 
-fun Fragment.toast(s: String?, type: ToastType, length: Int = Toast.LENGTH_LONG) {
-    context?.toast(s, type, length)
+fun Fragment.toast(
+    s: String?,
+    type: ToastType,
+    length: Int = Toast.LENGTH_LONG,
+    iconRight: Boolean = true
+) {
+    context?.toast(s, type, length, iconRight)
 }
 
-fun Fragment.toast(@StringRes res: Int, type: ToastType, length: Int = Toast.LENGTH_LONG) {
-    context?.toast(context?.getString(res), type, length)
+fun Fragment.toast(
+    @StringRes res: Int,
+    type: ToastType,
+    length: Int = Toast.LENGTH_LONG,
+    iconRight: Boolean = true
+) {
+    context?.toast(context?.getString(res), type, length, iconRight)
 }
