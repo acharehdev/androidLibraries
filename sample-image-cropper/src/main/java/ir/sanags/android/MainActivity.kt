@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             .setCropShape(CropImageView.CropShape.OVAL)
             .setCropMenuCropButtonTitle("Done")
             .setCropMenuCropButtonIcon(R.drawable.ic_launcher_foreground)
+            .setCropBigButtonVisibility(true)
             .start(this)
     }
 
