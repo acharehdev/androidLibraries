@@ -73,6 +73,11 @@ public final class CropImage {
     public static final String CROP_IMAGE_EXTRA_OPTIONS = "CROP_IMAGE_EXTRA_OPTIONS";
 
     /**
+     * The key used to pass crop image big crop button visibility to {@link CropImageActivity}.
+     */
+    public static final String CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY = "CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY";
+
+    /**
      * The key used to pass crop image bundle data to {@link CropImageActivity}.
      */
     public static final String CROP_IMAGE_EXTRA_BUNDLE = "CROP_IMAGE_EXTRA_BUNDLE";
@@ -372,7 +377,7 @@ public final class CropImage {
             File photoFile = new File(getImage.getPath(), "pickImageResult.jpeg");
             outputFileUri = FileProvider.getUriForFile(
                     context,
-                    context.getPackageName()+".provider", photoFile
+                    context.getPackageName() + ".provider", photoFile
             );//Uri.fromFile();
         }
         return outputFileUri;
@@ -491,8 +496,14 @@ public final class CropImage {
          */
         private final CropImageOptions mOptions;
 
+        /**
+         * Boolean for crop big button visibility
+         */
+        private Boolean mCropBigButtonVisibility;
+
         private ActivityBuilder(@Nullable Uri source) {
             mSource = source;
+            mCropBigButtonVisibility = false;
             mOptions = new CropImageOptions();
         }
 
@@ -514,6 +525,7 @@ public final class CropImage {
             Bundle bundle = new Bundle();
             bundle.putParcelable(CROP_IMAGE_EXTRA_SOURCE, mSource);
             bundle.putParcelable(CROP_IMAGE_EXTRA_OPTIONS, mOptions);
+            bundle.putBoolean(CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY, mCropBigButtonVisibility);
             intent.putExtra(CropImage.CROP_IMAGE_EXTRA_BUNDLE, bundle);
             return intent;
         }
@@ -979,6 +991,14 @@ public final class CropImage {
          */
         public ActivityBuilder setCropMenuCropButtonIcon(@DrawableRes int drawableResource) {
             mOptions.cropMenuCropButtonIcon = drawableResource;
+            return this;
+        }
+
+        /**
+         * set crop big button visibility
+         */
+        public ActivityBuilder setCropBigButtonVisibility(Boolean mCropBigButtonVisibility) {
+            this.mCropBigButtonVisibility = mCropBigButtonVisibility;
             return this;
         }
     }
