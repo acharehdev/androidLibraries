@@ -12,6 +12,8 @@
 
 package ir.sanags.android.image_cropper;
 
+import static ir.sanags.android.image_cropper.CropImage.CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,6 +27,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +53,11 @@ public class CropImageActivity extends AppCompatActivity
     private CropImageView mCropImageView;
 
     /**
+     * The crop button
+     */
+    private Button mCropButton;
+
+    /**
      * Persist URI image to crop URI if specific permissions are required
      */
     private Uri mCropImageUri;
@@ -58,6 +67,8 @@ public class CropImageActivity extends AppCompatActivity
      */
     private CropImageOptions mOptions;
 
+    private Boolean mCropBigButtonVisibility;
+
     @Override
     @SuppressLint("NewApi")
     public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +76,12 @@ public class CropImageActivity extends AppCompatActivity
         setContentView(R.layout.crop_image_activity);
 
         mCropImageView = findViewById(R.id.cropImageView);
+        mCropButton = findViewById(R.id.cropButton);
 
         Bundle bundle = getIntent().getBundleExtra(CropImage.CROP_IMAGE_EXTRA_BUNDLE);
         mCropImageUri = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
         mOptions = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_OPTIONS);
+        mCropBigButtonVisibility = bundle.getBoolean(CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY, false);
 
         if (savedInstanceState == null) {
             if (mCropImageUri == null || mCropImageUri.equals(Uri.EMPTY)) {
@@ -100,6 +113,15 @@ public class CropImageActivity extends AppCompatActivity
             actionBar.setTitle(title);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        mCropButton.setVisibility(mCropBigButtonVisibility ? View.VISIBLE : View.GONE);
+
+        if (mOptions.cropMenuCropButtonTitle != null) {
+            mCropButton.setText(mOptions.cropMenuCropButtonTitle);
+        }
+        mCropButton.setOnClickListener(v -> {
+            cropImage();
+        });
     }
 
     @Override
@@ -155,6 +177,11 @@ public class CropImageActivity extends AppCompatActivity
                 updateMenuItemIconColor(menu, R.id.crop_image_menu_crop, mOptions.activityMenuIconColor);
             }
         }
+
+        if (mCropBigButtonVisibility) {
+            menu.removeItem(R.id.crop_image_menu_crop);
+        }
+
         return true;
     }
 
