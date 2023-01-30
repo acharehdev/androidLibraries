@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CategorizedKeyValueLayout">
+        <attr name="categoryName" format="string" />
+        <attr name="categoryNameDimension" format="dimension" />
+        <attr name="categoryNameColor" format="color" />
+        <attr name="contentKey" format="string" />
+        <attr name="contentValue" format="string" />
+    </declare-styleable>
+</resources>
