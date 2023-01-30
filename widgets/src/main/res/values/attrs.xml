@@ -6,5 +6,6 @@
         <attr name="categoryNameColor" format="color" />
         <attr name="contentKey" format="string" />
         <attr name="contentValue" format="string" />
+        <attr name="cardCornerRadius" format="dimension"/>
     </declare-styleable>
 </resources>
