@@ -14,7 +14,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
+import com.google.android.material.card.MaterialCardView
 
 
 /**
@@ -24,14 +24,14 @@ class CategorizedKeyValueLayout : LinearLayout {
 
     private lateinit var textViewCategoryName: AppCompatTextView
     private lateinit var textViewContainer: TextView
+    private lateinit var cardView: MaterialCardView
 
     private var _categoryName: String? = null
     private var _categoryNameColor: Int = Color.GREEN
-    private var _categoryNameDimension: Float = 0f
+    private var _categoryNameDimension: Float = 10f
     private var _contentKey: String? = null
     private var _contentValue: String? = null
-
-    private var cardCornerRadius: Int = 0
+    private var _cardCornerRadius: Float = 10f
 
     /**
      * The text to draw
@@ -77,6 +77,13 @@ class CategorizedKeyValueLayout : LinearLayout {
             invalidateTextPaintAndMeasurements()
         }
 
+    var cardCornerRadius: Float
+        get() = _cardCornerRadius
+        set(value) {
+            _cardCornerRadius = value
+            invalidateTextPaintAndMeasurements()
+        }
+
     /*private fun parseMap(value: Map<String?, String?>) {
         val str = SpannableBuilder()
         for (item in value) {
@@ -112,6 +119,8 @@ class CategorizedKeyValueLayout : LinearLayout {
 
         textViewContainer = view.findViewById(R.id.textViewContainer)
 
+        cardView = view.findViewById(R.id.cardView)
+
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.CategorizedKeyValueLayout, defStyleAttr, 0
         )
@@ -138,6 +147,11 @@ class CategorizedKeyValueLayout : LinearLayout {
             R.styleable.CategorizedKeyValueLayout_contentValue
         )
 
+        _cardCornerRadius = a.getDimension(
+            R.styleable.CategorizedKeyValueLayout_cardCornerRadius,
+            10F
+        )
+
         a.recycle()
 
         // Update TextPaint and text measurements from attributes
@@ -160,6 +174,8 @@ class CategorizedKeyValueLayout : LinearLayout {
             setTextColor(categoryNameColor)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, categoryNameDimension)
         }
+
+        //cardView.radius = cardCornerRadius
 
         setContent(_contentKey, _contentValue)
     }
