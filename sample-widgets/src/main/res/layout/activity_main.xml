@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         app:categoryName="test"
         app:contentKey="test2: "
+        app:cardCornerRadius="20dp"
         app:contentValue="test desc" />
 
 </LinearLayout>
