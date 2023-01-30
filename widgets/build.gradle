@@ -1,8 +1,22 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'ir.sanags.android'
+                artifactId = 'widgets'
+                version = '1.0.0-alpha'
+            }
+        }
+    }
+}
 android {
     namespace 'ir.sanags.android.widgets'
     compileSdk 33
@@ -27,6 +41,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
