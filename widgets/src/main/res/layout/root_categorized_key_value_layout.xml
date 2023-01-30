@@ -1,0 +1,41 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="ir.sanags.android.widgets.CategorizedKeyValueLayout"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="8dp"
+        android:lines="1"
+        android:textColor="#00bfa5"
+        app:fontType="bold"
+        tools:text="عنوان" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp"
+        app:contentPadding="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:justificationMode="inter_word"
+            android:lineSpacingExtra="8sp"
+            android:textColor="#FF3D4166"
+            app:fontType="light" />
+
+    </com.google.android.material.card.MaterialCardView>
+</merge>
