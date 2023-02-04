@@ -3,6 +3,7 @@ package com.sanags.android.sample_toast
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Button
 import android.widget.Toast
 import ir.sanags.android.achar_toast.ToastConfig
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         ToastConfig.textTypeface = Typeface.createFromAsset(assets, "fonts/Yekan.ttf")
+        ToastConfig.gravityAndPosition = Triple(Gravity.CENTER_VERTICAL or Gravity.TOP, 0, 0)
 
         btnInfo = findViewById<Button?>(R.id.btn_info).apply {
             setOnClickListener {

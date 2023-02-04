@@ -15,9 +15,24 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 
-object ToastConfig{
+object ToastConfig {
     var textTypeface: Typeface? = null
     var textSize: Float = 14f
+
+    /** first: gravity, second: xOffset, third: yOffset */
+    var gravityAndPosition: Triple<Int, Int, Int> = Triple(Gravity.CENTER_VERTICAL, 0, 0)
+
+    /** first: background color, second: text color, third: icon */
+    var successStyle: Triple<Int, Int, Int> =
+        Triple(R.color.success_back, R.color.success_text, R.drawable.ic_outline_check_circle_24)
+
+    /** first: background color, second: text color, third: icon */
+    var errorStyle: Triple<Int, Int, Int> =
+        Triple(R.color.error_back, R.color.error_text, R.drawable.ic_outline_cancel_24)
+
+    /** first: background color, second: text color, third: icon */
+    var InfoStyle: Triple<Int, Int, Int> =
+        Triple(R.color.info_back, R.color.info_text, R.drawable.ic_outline_info_24)
 }
 
 fun Context?.toast(
@@ -30,8 +45,7 @@ fun Context?.toast(
     if (this == null)
         return
 
-    val inflater = LayoutInflater.from(this)
-    val layout = inflater.inflate(R.layout.custom_toast, null)
+    val layout = LayoutInflater.from(this).inflate(R.layout.custom_toast, null)
     val textView = layout.findViewById<TextView>(R.id.textView)
 
     val backgroundColor: Int
@@ -41,19 +55,19 @@ fun Context?.toast(
     when (type) {
         ToastType.Success -> {
             backgroundColor =
-                ContextCompat.getColor(this, R.color.success_back)
-            textColor = ContextCompat.getColor(this, R.color.success_text)
-            imageResource = R.drawable.ic_outline_check_circle_24
+                ContextCompat.getColor(this, ToastConfig.successStyle.first)
+            textColor = ContextCompat.getColor(this, ToastConfig.successStyle.second)
+            imageResource = ToastConfig.successStyle.third
         }
         ToastType.Error -> {
-            backgroundColor = ContextCompat.getColor(this, R.color.error_back)
-            textColor = ContextCompat.getColor(this, R.color.error_text)
-            imageResource = R.drawable.ic_outline_cancel_24
+            backgroundColor = ContextCompat.getColor(this, ToastConfig.errorStyle.first)
+            textColor = ContextCompat.getColor(this, ToastConfig.errorStyle.second)
+            imageResource = ToastConfig.errorStyle.third
         }
         else -> {//ToastType.Info
-            backgroundColor = ContextCompat.getColor(this, R.color.info_back)
-            textColor = ContextCompat.getColor(this, R.color.info_text)
-            imageResource = R.drawable.ic_outline_info_24
+            backgroundColor = ContextCompat.getColor(this, ToastConfig.InfoStyle.first)
+            textColor = ContextCompat.getColor(this, ToastConfig.InfoStyle.second)
+            imageResource = ToastConfig.InfoStyle.third
         }
     }
 
@@ -83,12 +97,15 @@ fun Context?.toast(
     textView.typeface = ToastConfig.textTypeface
     textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, ToastConfig.textSize)
 
-    val toast = Toast(this)
-    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0)
-    toast.duration = length
-    toast.view = layout
-    toast.show()
-
+    Toast(this).apply {
+        setGravity(
+            ToastConfig.gravityAndPosition.first,
+            ToastConfig.gravityAndPosition.second,
+            ToastConfig.gravityAndPosition.third
+        )
+        duration = length
+        view = layout
+    }.show()
 }
 
 fun Context?.toast(
