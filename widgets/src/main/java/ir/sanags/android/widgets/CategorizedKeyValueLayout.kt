@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.card.MaterialCardView
 
 
@@ -21,68 +22,82 @@ import com.google.android.material.card.MaterialCardView
  * CategorizedKeyValueLayout
  */
 class CategorizedKeyValueLayout : LinearLayout {
-
+    // views
     private lateinit var textViewCategoryName: AppCompatTextView
     private lateinit var textViewContainer: TextView
     private lateinit var cardView: MaterialCardView
 
-    private var _categoryName: String? = null
-    private var _categoryNameColor: Int = Color.GREEN
-    private var _categoryNameDimension: Float = 10f
-    private var _contentKey: String? = null
-    private var _contentValue: String? = null
-    private var _cardCornerRadius: Float = 10f
 
+    // strings
     /**
-     * The text to draw
+     * The text of textViewCategoryName
      */
-    var categoryName: String?
-        get() = _categoryName
+    var categoryName: String? = null
         set(value) {
-            _categoryName = value
-            invalidateTextPaintAndMeasurements()
+            field = value
+            if (::textViewCategoryName.isInitialized) {
+                textViewCategoryName.text = value
+            }
         }
 
+
+    // colors
     /**
-     * The font color
+     * The color of textViewCategoryName
      */
-    var categoryNameColor: Int
-        get() = _categoryNameColor
+    var categoryNameColor: Int = Color.GREEN
         set(value) {
-            _categoryNameColor = value
-            invalidateTextPaintAndMeasurements()
+            field = value
+            if (::textViewCategoryName.isInitialized) {
+                textViewCategoryName.setTextColor(value)
+            }
+
+            if (::textViewContainer.isInitialized) {
+                textViewContainer.setTextColor(value)
+            }
         }
 
+    var contentKeyColor: Int = 0
+
+    var contentValueColor: Int = 0
+
+
+    // dimensions and sizes
     /**
-     * In the example view, this dimension is the font size.
+     * The font size of textViewCategoryName
      */
-    var categoryNameDimension: Float
-        get() = _categoryNameDimension
+    var categoryNameDimension: Float = 0F
         set(value) {
-            _categoryNameDimension = value
-            invalidateTextPaintAndMeasurements()
+            field = value
+            if (::textViewCategoryName.isInitialized) {
+                textViewCategoryName.setTextSize(TypedValue.COMPLEX_UNIT_PX, value)
+            }
         }
 
-    var content: String?
-        get() = _contentKey
+    var cardCornerRadius: Float = 0F
         set(value) {
-            _contentKey = value
-            invalidateTextPaintAndMeasurements()
+            field = value
+            if (::cardView.isInitialized) {
+                cardView.radius = field
+            }
         }
 
-    var contentValue: String?
-        get() = _contentValue
+    var categoryNameFont: Typeface? = null
         set(value) {
-            _contentValue = value
-            invalidateTextPaintAndMeasurements()
+            field = value
+            if (::textViewCategoryName.isInitialized) {
+                textViewCategoryName.typeface = value
+            }
         }
 
-    var cardCornerRadius: Float
-        get() = _cardCornerRadius
+    var contentFont: Typeface? = null
         set(value) {
-            _cardCornerRadius = value
-            invalidateTextPaintAndMeasurements()
+            field = value
+            if (::textViewContainer.isInitialized) {
+                textViewContainer.typeface = value
+            }
         }
+
 
     /*private fun parseMap(value: Map<String?, String?>) {
         val str = SpannableBuilder()
@@ -112,72 +127,75 @@ class CategorizedKeyValueLayout : LinearLayout {
         //orientation = VERTICAL
         orientation = VERTICAL
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
         val view = inflater.inflate(R.layout.root_categorized_key_value_layout, this, true)
 
         textViewCategoryName = view.findViewById(R.id.tvCategoryName)
-
         textViewContainer = view.findViewById(R.id.textViewContainer)
-
         cardView = view.findViewById(R.id.cardView)
 
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.CategorizedKeyValueLayout, defStyleAttr, 0
         )
 
-        _categoryName = a.getString(
+        categoryName = a.getString(
             R.styleable.CategorizedKeyValueLayout_categoryName
         )
-        _categoryNameColor = a.getColor(
-            R.styleable.CategorizedKeyValueLayout_categoryNameColor,
-            Color.GREEN
-        )
-        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-        // values that should fall on pixel boundaries.
-        _categoryNameDimension = a.getDimension(
-            R.styleable.CategorizedKeyValueLayout_categoryNameDimension,
-            14f
-        )
-
-        _contentKey = a.getString(
+        val contentKey = a.getString(
             R.styleable.CategorizedKeyValueLayout_contentKey
         )
-
-        _contentValue = a.getString(
+        val contentValue = a.getString(
             R.styleable.CategorizedKeyValueLayout_contentValue
         )
 
-        _cardCornerRadius = a.getDimension(
-            R.styleable.CategorizedKeyValueLayout_cardCornerRadius,
-            10F
+        categoryNameColor = a.getColor(
+            R.styleable.CategorizedKeyValueLayout_categoryNameColor,
+            Color.parseColor("#00BFA5")
         )
+        contentKeyColor = a.getColor(
+            R.styleable.CategorizedKeyValueLayout_contentKeyColor,
+            Color.parseColor("#3D4166")
+        )
+        contentValueColor = a.getColor(
+            R.styleable.CategorizedKeyValueLayout_contentValueColor,
+            Color.parseColor("#3D4166")
+        )
+
+
+        categoryNameDimension = a.getDimension(
+            R.styleable.CategorizedKeyValueLayout_categoryNameDimension,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                14f,
+                context.resources.displayMetrics
+            )
+        )
+        cardCornerRadius = a.getDimension(
+            R.styleable.CategorizedKeyValueLayout_cardCornerRadius,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                10f,
+                context.resources.displayMetrics
+            )
+        )
+
+        a.getResourceId(R.styleable.CategorizedKeyValueLayout_categoryNameFont, 0).let {
+            if (it > 0) {
+                categoryNameFont = ResourcesCompat.getFont(context, it)
+            }
+        }
+        a.getResourceId(R.styleable.CategorizedKeyValueLayout_contentFont, 0).let {
+            if (it > 0) {
+                contentFont = ResourcesCompat.getFont(context, it)
+            }
+        }
 
         a.recycle()
 
-        // Update TextPaint and text measurements from attributes
-        invalidateTextPaintAndMeasurements()
+        setContent(contentKey, contentValue)
     }
 
     fun clear() {
         textViewContainer.text = null
-    }
-
-
-    /*override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        linearLayout.layout(l, t, r, b)
-    }*/
-
-
-    private fun invalidateTextPaintAndMeasurements() {
-        textViewCategoryName.apply {
-            text = categoryName
-            setTextColor(categoryNameColor)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, categoryNameDimension)
-        }
-
-        //cardView.radius = cardCornerRadius
-
-        setContent(_contentKey, _contentValue)
     }
 
     fun setStrContent(str: String) {
@@ -219,6 +237,13 @@ class CategorizedKeyValueLayout : LinearLayout {
 
         val spannable = SpannableString(tempKey + tempValue + afterValue)
 
+        spannable.setSpan(
+            ForegroundColorSpan(contentKeyColor),
+            0,
+            tempKey.length,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+
         //spannable.append(title, RelativeSizeSpan(1.25f), Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
 
         spannable.setSpan(
@@ -229,7 +254,7 @@ class CategorizedKeyValueLayout : LinearLayout {
         )
 
         spannable.setSpan(
-            ForegroundColorSpan(Color.parseColor("#FF3D4166")),
+            ForegroundColorSpan(contentValueColor),
             tempKey.length,
             (tempKey + tempValue).length,
             Spannable.SPAN_EXCLUSIVE_INCLUSIVE
