@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <ir.sanags.android.widgets.CategorizedKeyValueLayout
+        android:id="@+id/cat1"
+        style="@style/str"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:categoryName="test"
-        app:contentKey="test2: "
-        app:cardCornerRadius="20dp"
-        app:contentValue="test desc" />
+        app:categoryName="نام دسته بندی"
+        app:contentKey="عنوان تستی جهت تست: "
+        app:contentValue="متن تستی به عنوان توضیحات" />
 
 </LinearLayout>
