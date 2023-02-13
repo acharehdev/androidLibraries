@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:justificationMode="inter_word"
             android:lineSpacingExtra="8sp"
-            android:textColor="#FF3D4166" />
+            android:textColor="#3D4166" />
 
     </com.google.android.material.card.MaterialCardView>
 </merge>
