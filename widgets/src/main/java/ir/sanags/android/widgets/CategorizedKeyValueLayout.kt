@@ -35,26 +35,32 @@ class CategorizedKeyValueLayout : LinearLayout {
     var categoryName: String? = null
         set(value) {
             field = value
-            if (::textViewCategoryName.isInitialized) {
-                textViewCategoryName.text = value
-            }
+            textViewCategoryName.text = value
         }
 
+    var contentKeyValue: String? = null
+        get() {
+            return textViewContainer.text.toString()
+        }
+        set(value) {
+            field = value
+            textViewContainer.text = value
+        }
 
     // colors
     /**
      * The color of textViewCategoryName
      */
-    var categoryNameColor: Int = Color.GREEN
+    var categoryNameColor: Int = 0
         set(value) {
             field = value
-            if (::textViewCategoryName.isInitialized) {
-                textViewCategoryName.setTextColor(value)
-            }
+            textViewCategoryName.setTextColor(value)
+        }
 
-            if (::textViewContainer.isInitialized) {
-                textViewContainer.setTextColor(value)
-            }
+    var contentColor: Int = 0
+        set(value) {
+            field = value
+            textViewContainer.setTextColor(value)
         }
 
     var contentKeyColor: Int = 0
@@ -69,33 +75,25 @@ class CategorizedKeyValueLayout : LinearLayout {
     var categoryNameDimension: Float = 0F
         set(value) {
             field = value
-            if (::textViewCategoryName.isInitialized) {
-                textViewCategoryName.setTextSize(TypedValue.COMPLEX_UNIT_PX, value)
-            }
+            textViewCategoryName.setTextSize(TypedValue.COMPLEX_UNIT_PX, value)
         }
 
     var cardCornerRadius: Float = 0F
         set(value) {
             field = value
-            if (::cardView.isInitialized) {
-                cardView.radius = field
-            }
+            cardView.radius = field
         }
 
     var categoryNameFont: Typeface? = null
         set(value) {
             field = value
-            if (::textViewCategoryName.isInitialized) {
-                textViewCategoryName.typeface = value
-            }
+            textViewCategoryName.typeface = value
         }
 
     var contentFont: Typeface? = null
         set(value) {
             field = value
-            if (::textViewContainer.isInitialized) {
-                textViewContainer.typeface = value
-            }
+            textViewContainer.typeface = value
         }
 
 
@@ -140,6 +138,9 @@ class CategorizedKeyValueLayout : LinearLayout {
         categoryName = a.getString(
             R.styleable.CategorizedKeyValueLayout_categoryName
         )
+        contentKeyValue = a.getString(
+            R.styleable.CategorizedKeyValueLayout_contentKeyValue
+        )
         val contentKey = a.getString(
             R.styleable.CategorizedKeyValueLayout_contentKey
         )
@@ -150,6 +151,10 @@ class CategorizedKeyValueLayout : LinearLayout {
         categoryNameColor = a.getColor(
             R.styleable.CategorizedKeyValueLayout_categoryNameColor,
             Color.parseColor("#00BFA5")
+        )
+        contentColor = a.getColor(
+            R.styleable.CategorizedKeyValueLayout_contentColor,
+            Color.parseColor("#3D4166")
         )
         contentKeyColor = a.getColor(
             R.styleable.CategorizedKeyValueLayout_contentKeyColor,
@@ -191,7 +196,9 @@ class CategorizedKeyValueLayout : LinearLayout {
 
         a.recycle()
 
-        setContent(contentKey, contentValue)
+        if ((contentKey?.length ?: 0) + (contentValue?.length ?: 0) != 0) {
+            setContent(contentKey, contentValue)
+        }
     }
 
     fun clear() {
