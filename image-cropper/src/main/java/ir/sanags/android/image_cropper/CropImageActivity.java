@@ -12,6 +12,7 @@
 
 package ir.sanags.android.image_cropper;
 
+import static ir.sanags.android.image_cropper.CropImage.CROP_IMAGE_EXTRA_ASPECT_RATIOS_LIST;
 import static ir.sanags.android.image_cropper.CropImage.CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY;
 
 import android.Manifest;
@@ -35,6 +36,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +71,10 @@ public class CropImageActivity extends AppCompatActivity
 
     private Boolean mCropBigButtonVisibility;
 
+    private RecyclerView aspectRatiosRecyclerView;
+    private AspectRatioAdapter aspectRatiosAdapter;
+    private String aspectRatiosList;
+
     @Override
     @SuppressLint("NewApi")
     public void onCreate(Bundle savedInstanceState) {
@@ -77,11 +83,24 @@ public class CropImageActivity extends AppCompatActivity
 
         mCropImageView = findViewById(R.id.cropImageView);
         mCropButton = findViewById(R.id.cropButton);
+        aspectRatiosRecyclerView = findViewById(R.id.aspectRatiosRV);
 
         Bundle bundle = getIntent().getBundleExtra(CropImage.CROP_IMAGE_EXTRA_BUNDLE);
         mCropImageUri = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
         mOptions = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_OPTIONS);
         mCropBigButtonVisibility = bundle.getBoolean(CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY, false);
+
+        try {
+            aspectRatiosList = bundle.getString(CROP_IMAGE_EXTRA_ASPECT_RATIOS_LIST, "").trim();
+            if (!aspectRatiosList.isEmpty()) {
+                initRecyclerView();
+            } else {
+                aspectRatiosRecyclerView.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            aspectRatiosRecyclerView.setVisibility(View.GONE);
+            e.printStackTrace();
+        }
 
         if (savedInstanceState == null) {
             if (mCropImageUri == null || mCropImageUri.equals(Uri.EMPTY)) {
@@ -122,6 +141,12 @@ public class CropImageActivity extends AppCompatActivity
         mCropButton.setOnClickListener(v -> {
             cropImage();
         });
+    }
+
+    private void initRecyclerView() {
+        aspectRatiosRecyclerView.setVisibility(View.VISIBLE);
+        aspectRatiosAdapter = new AspectRatioAdapter(aspectRatiosList, pair -> mCropImageView.setAspectRatio(pair.getFirst(), pair.getSecond()));
+        aspectRatiosRecyclerView.setAdapter(aspectRatiosAdapter);
     }
 
     @Override

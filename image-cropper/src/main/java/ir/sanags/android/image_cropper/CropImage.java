@@ -78,6 +78,11 @@ public final class CropImage {
     public static final String CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY = "CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY";
 
     /**
+     * The key used to pass crop image aspect ratios list to {@link CropImageActivity}.
+     */
+    public static final String CROP_IMAGE_EXTRA_ASPECT_RATIOS_LIST = "CROP_IMAGE_EXTRA_ASPECT_RATIOS_LIST";
+
+    /**
      * The key used to pass crop image bundle data to {@link CropImageActivity}.
      */
     public static final String CROP_IMAGE_EXTRA_BUNDLE = "CROP_IMAGE_EXTRA_BUNDLE";
@@ -501,9 +506,15 @@ public final class CropImage {
          */
         private Boolean mCropBigButtonVisibility;
 
+        /**
+         * String for aspectRatiosList for example"1:2, 2:1"
+         */
+        private String mAspectRatios;
+
         private ActivityBuilder(@Nullable Uri source) {
             mSource = source;
             mCropBigButtonVisibility = false;
+            mAspectRatios = "";
             mOptions = new CropImageOptions();
         }
 
@@ -526,6 +537,7 @@ public final class CropImage {
             bundle.putParcelable(CROP_IMAGE_EXTRA_SOURCE, mSource);
             bundle.putParcelable(CROP_IMAGE_EXTRA_OPTIONS, mOptions);
             bundle.putBoolean(CROP_IMAGE_EXTRA_BIG_CROP_BUTTON_VISIBILITY, mCropBigButtonVisibility);
+            bundle.putString(CROP_IMAGE_EXTRA_ASPECT_RATIOS_LIST, mAspectRatios);
             intent.putExtra(CropImage.CROP_IMAGE_EXTRA_BUNDLE, bundle);
             return intent;
         }
@@ -999,6 +1011,14 @@ public final class CropImage {
          */
         public ActivityBuilder setCropBigButtonVisibility(Boolean mCropBigButtonVisibility) {
             this.mCropBigButtonVisibility = mCropBigButtonVisibility;
+            return this;
+        }
+
+        /**
+         * set aspect ratios in the format of "1:2, 1:1"
+         */
+        public ActivityBuilder setAspectRatios(String mAspectRatios) {
+            this.mAspectRatios = mAspectRatios;
             return this;
         }
     }
