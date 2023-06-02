@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
             .setCropMenuCropButtonTitle("Done")
             .setCropMenuCropButtonIcon(R.drawable.ic_launcher_foreground)
             .setCropBigButtonVisibility(true)
+            //.setAspectRatio(1,2)
+            .setAspectRatios("1:2, 1:1")
             .start(this)
     }
 
