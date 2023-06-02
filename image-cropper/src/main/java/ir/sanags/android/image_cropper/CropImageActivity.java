@@ -35,6 +35,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +74,8 @@ public class CropImageActivity extends AppCompatActivity
 
     private RecyclerView aspectRatiosRecyclerView;
     private AspectRatioAdapter aspectRatiosAdapter;
+
+    private LinearLayoutCompat linearLayout;
     private String aspectRatiosList;
 
     @Override
@@ -84,6 +87,7 @@ public class CropImageActivity extends AppCompatActivity
         mCropImageView = findViewById(R.id.cropImageView);
         mCropButton = findViewById(R.id.cropButton);
         aspectRatiosRecyclerView = findViewById(R.id.aspectRatiosRV);
+        linearLayout = findViewById(R.id.bottomBox);
 
         Bundle bundle = getIntent().getBundleExtra(CropImage.CROP_IMAGE_EXTRA_BUNDLE);
         mCropImageUri = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
@@ -141,6 +145,13 @@ public class CropImageActivity extends AppCompatActivity
         mCropButton.setOnClickListener(v -> {
             cropImage();
         });
+
+        if (mCropButton.getVisibility() == View.VISIBLE || aspectRatiosRecyclerView.getVisibility() == View.VISIBLE) {
+            linearLayout.setVisibility(View.VISIBLE);
+
+        } else {
+            linearLayout.setVisibility(View.GONE);
+        }
     }
 
     private void initRecyclerView() {
