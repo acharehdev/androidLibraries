@@ -17,18 +17,18 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'ir.sanags.android'
                 artifactId = 'image-cropper'
-                version = '1.1.0-alpha'
+                version = '1.2.0'
             }
         }
     }
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 16
-        targetSdk 32
+        targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -57,4 +57,6 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.4.0'
     implementation 'androidx.fragment:fragment:1.3.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 }
